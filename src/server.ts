@@ -9,17 +9,18 @@ dotenv.config();
 app.setErrorHandler((error, request, reply) => {
     reply.code(400).send({ message: error.message })
 })
-
 const start = async () => {
+    const port = Number(process.env.PORT) || 3333;
     app.register(cors);
     app.register(routes);
 
     try {
-        app.listen({ port: 3333, host: "0.0.0.0" })
-        console.log("Servidor rodando no http://localhost:3333")
+        await app.listen({ port, host: "0.0.0.0" });
+        console.log(`Servidor rodando na porta ${port}`);
     } catch (err) {
-        console.log(err)
+        console.error(err);
+        process.exit(1);
     }
-}
+};
 
 start();
